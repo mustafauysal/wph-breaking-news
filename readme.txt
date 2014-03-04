@@ -1,4 +1,4 @@
-=== Breaking News ===
+=== WPH Breaking News ===
 Contributors: m_uysl
 Tags: news,breaking news,webrazzi,tech,son dakika,wphandle
 Requires at least: 3.3
