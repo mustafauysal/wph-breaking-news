@@ -1,4 +1,4 @@
-# Breaking News #
+# WPH Breaking News #
 **Contributors:** m_uysl  
 **Tags:** news,breaking news,webrazzi,tech,son dakika,wphandle  
 **Requires at least:** 3.3  
@@ -34,7 +34,7 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 ## Screenshots ##
 ###1. Post metabox for configure status and time.###
-![](https://raw.github.com/mustafauysal/breaking-news/master/screenshot-1.png)
+![](https://raw.github.com/mustafauysal/wph-breaking-news/master/screenshot-1.png)
 
 
 

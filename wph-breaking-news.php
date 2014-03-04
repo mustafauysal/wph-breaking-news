@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Breaking News
+Plugin Name: WPH Breaking News
 Plugin URI: http://wphandle.com
 Description: Easy way to announce "Breaking News" on your WordPress site. 
 Author: Mustafa Uysal (WPHandle)
 Version: 0.1
-Text Domain: breaking-news
+Text Domain: wph-breaking-news
 Domain Path: /languages/
 Author URI: http://uysalmustafa.com
 License: GPLv2 (or later)
@@ -17,7 +17,7 @@ require_once( dirname( __FILE__ ) . '/libs/wp-stack-plugin.php' );
 class WPH_Breaking_News extends WP_Stack_Plugin {
 	public static $instance;
 	protected $breaking_prefix = 'Breaking News';
-	const TEXT_DOMAIN = 'breaking-news';
+	const TEXT_DOMAIN = 'wph-breaking-news';
 
 
 	public function __construct() {
