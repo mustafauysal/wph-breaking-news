@@ -2,8 +2,8 @@
 Contributors: m_uysl
 Tags: news,breaking news,webrazzi,tech,son dakika,wphandle
 Requires at least: 3.3
-Tested up to: 3.9
-Stable tag: 0.1
+Tested up to: 5.2
+Stable tag: 0.2
 License: GPLv2 (or later)
 
 Easy way to announce "Breaking News" on your WordPress site. 
@@ -37,6 +37,13 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 
 
 == Changelog ==
+
+= 0.2 =
+- new filter: `wph_breaking_news_announce_text` for changing announcement text added
+- new filter: `wph_breaking_news_allowed_post_types` for controlling post_types
+- better localization
+- tested with WP 5.2 & Gutenberg
+
 
 = 0.1 =
 

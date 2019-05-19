@@ -2,8 +2,8 @@
 **Contributors:** m_uysl  
 **Tags:** news,breaking news,webrazzi,tech,son dakika,wphandle  
 **Requires at least:** 3.3  
-**Tested up to:** 3.9  
-**Stable tag:** 0.1  
+**Tested up to:** 5.2  
+**Stable tag:** 0.2  
 **License:** GPLv2 (or later)  
 
 Easy way to announce "Breaking News" on your WordPress site. 
@@ -35,11 +35,3 @@ Extract the zip file and just drop the contents in the wp-content/plugins/ direc
 ## Screenshots ##
 ###1. Post metabox for configure status and time.###
 ![](https://raw.github.com/mustafauysal/wph-breaking-news/master/screenshot-1.png)
-
-
-
-## Changelog ##
-
-### 0.1 ###
-
-- Initial release.
