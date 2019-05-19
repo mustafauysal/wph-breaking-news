@@ -1,13 +1,13 @@
 <?php
 /*
 Plugin Name: WPH Breaking News
-Plugin URI: http://wphandle.com
+Plugin URI: https://wphandle.com
 Description: Easy way to announce "Breaking News" on your WordPress site. 
-Author: Mustafa Uysal (WPHandle)
-Version: 0.1
+Author: Mustafa Uysal
+Version: 0.2
 Text Domain: wph-breaking-news
 Domain Path: /languages/
-Author URI: http://uysalmustafa.com
+Author URI: https://uysalmustafa.com
 License: GPLv2 (or later)
 */
 
@@ -16,18 +16,25 @@ require_once( dirname( __FILE__ ) . '/libs/wp-stack-plugin.php' );
 
 class WPH_Breaking_News extends WP_Stack_Plugin {
 	public static $instance;
-	protected $breaking_prefix = 'Breaking News';
-	const TEXT_DOMAIN = 'wph-breaking-news';
+
+	/**
+	 * Prefix for the announcement
+	 *
+	 * @var string
+	 */
+	protected $announce_text;
 
 
 	public function __construct() {
 		self::$instance = $this;
+
+		$this->announce_text = apply_filters( 'wph_breaking_news_announce_text', __( 'Breaking News', 'wph-breaking-news' ) );
 		$this->hook( 'init' );
 	}
 
 	public function init() {
 
-		load_plugin_textdomain( self::TEXT_DOMAIN, false, basename( dirname( __FILE__ ) ) . '/languages' );
+		load_plugin_textdomain( 'wph-breaking-news', false, basename( dirname( __FILE__ ) ) . '/languages' );
 
 		$this->hook( 'add_meta_boxes' );
 		$this->hook( 'the_title' );
@@ -38,10 +45,10 @@ class WPH_Breaking_News extends WP_Stack_Plugin {
 
 	public function add_meta_boxes( $post_type ) {
 		add_meta_box(
-			'breaking_news_meta_box', __( 'Breaking News', self::TEXT_DOMAIN ), array(
-				$this,
-				'breaking_news_meta_box'
-			), 'post', 'normal', 'high'
+			'breaking_news_meta_box', __( 'Breaking News', 'wph-breaking-news' ), array(
+			$this,
+			'breaking_news_meta_box'
+		), 'post', 'normal', 'high'
 		);
 	}
 
@@ -52,14 +59,14 @@ class WPH_Breaking_News extends WP_Stack_Plugin {
 		?>
 		<table>
 			<tr>
-				<td><label><?php _e( 'Mark as breaking news', self::TEXT_DOMAIN ); ?>:</label></td>
+				<td><label><?php _e( 'Mark as breaking news', 'wph-breaking-news' ); ?>:</label></td>
 				<td>
-					<input type="radio" name="wph_breaking_news_status" <?php checked( $wph_breaking_news_status, 'on' ); ?> value="on" /> <?php _e( 'Enabled', self::TEXT_DOMAIN ); ?>
-					<input type="radio" name="wph_breaking_news_status" <?php checked( $wph_breaking_news_status, 'off' ); ?> value="off" /> <?php _e( 'Disabled', self::TEXT_DOMAIN ); ?>
+					<input type="radio" name="wph_breaking_news_status" <?php checked( $wph_breaking_news_status, 'on' ); ?> value="on" /> <?php _e( 'Enabled', 'wph-breaking-news' ); ?>
+					<input type="radio" name="wph_breaking_news_status" <?php checked( $wph_breaking_news_status, 'off' ); ?> value="off" /> <?php _e( 'Disabled', 'wph-breaking-news' ); ?>
 				</td>
 			</tr>
 			<tr>
-				<td><label><?php _e( 'Time', self::TEXT_DOMAIN ); ?>:</label></td>
+				<td><label><?php _e( 'Time', 'wph-breaking-news' ); ?>:</label></td>
 				<td>
 					<select name="wph_breaking_time">
 						<?php
@@ -68,11 +75,11 @@ class WPH_Breaking_News extends WP_Stack_Plugin {
 						}
 						?>
 					</select>
-					<?php _e( 'hour(s) will display as "breaking news" then it will be turned off, you don\'t need to update again.', self::TEXT_DOMAIN ); ?>
+					<?php _e( 'hour(s) will display as "breaking news" then it will be turned off, you don\'t need to update again.', 'wph-breaking-news' ); ?>
 				</td>
 			</tr>
 		</table>
-	<?php
+		<?php
 	}
 
 	public function save_post( $post_id ) {
@@ -84,11 +91,14 @@ class WPH_Breaking_News extends WP_Stack_Plugin {
 		}
 	}
 
+	public function allowed_post_types() {
+		return apply_filters( 'wph_breaking_news_allowed_post_types', array( 'post' ) );
+	}
 
 	public function the_title( $title ) {
 		global $id, $post;
 
-		if ( $id && $post && $post->post_type == 'post' ) {
+		if ( $id && $post && in_array( $post->post_type, $this->allowed_post_types() ) ) {
 
 			$wph_breaking_news_status = get_post_meta( $post->ID, 'wph_breaking_news_status', true );
 			$wph_breaking_time        = get_post_meta( $post->ID, 'wph_breaking_time', true );
@@ -99,8 +109,7 @@ class WPH_Breaking_News extends WP_Stack_Plugin {
 			$current_time = current_time( 'timestamp' );
 
 			if ( $wph_breaking_news_status === 'on' && ( $expire_time > $current_time ) ) {
-				$prefix = __( $this->breaking_prefix, self::TEXT_DOMAIN );
-				$title  = '[' . $prefix . '] ' . $title;
+				$title = sprintf( "[%s] %s", $this->announce_text, $title );
 			}
 
 		}
